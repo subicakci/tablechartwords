@@ -79,7 +79,7 @@ void MainWidget::findWordCombinations(HashWCollection &wcol)
 }
 
 // find most frequent 10 words
-VectorWCollection MainWidget::topFrequentWords(HashWCollection &wcol)
+VectorWCollection MainWidget::findTopFrequentWords(HashWCollection &wcol)
 {
     VectorWCollection vwords;
     VectorWCollection vtopwords;
@@ -101,12 +101,6 @@ VectorWCollection MainWidget::topFrequentWords(HashWCollection &wcol)
     return vtopwords;
 }
 
-//calculate summation of top word frequencies to calculate rate (percentage)
-uint calculateTopWordsSumOfFrequencies(uint sum, const QPair<QString, uint> &p)
-{
-    return sum + p.second;
-}
-
 
 // fill the table with top words
 void MainWidget::updateTableContent(const VectorWCollection &vwords)
@@ -116,6 +110,7 @@ void MainWidget::updateTableContent(const VectorWCollection &vwords)
     m_tableWidget->setRowCount(vwords.size());
     m_tableWidget->setHorizontalHeaderLabels({"Word Combination", "Percentage"});
 
+    //calculate summation of top word frequencies to calculate rate (percentage)
     auto sum = std::accumulate(vwords.begin(), vwords.end(), 0,
                                [](uint sum, const QPair<QString, uint> &p) {return sum + p.second; });
 
@@ -137,6 +132,7 @@ void MainWidget::updateBarChartContent(const VectorWCollection &vwords)
     QStringList *categories = new QStringList();
     QHorizontalStackedBarSeries *series = new QHorizontalStackedBarSeries();
 
+    //calculate summation of top word frequencies to calculate rate (percentage)
     auto sum = std::accumulate(vwords.begin(), vwords.end(), 0,
                                [](uint sum, const QPair<QString, uint> &p) {return sum + p.second; });
 
@@ -200,7 +196,7 @@ void MainWidget::handleFindWordsClicked()
 
     HashWCollection wcol; //hash map for word and frequency pair
     findWordCombinations(wcol);
-    VectorWCollection topwords = topFrequentWords(wcol);
+    VectorWCollection topwords = findTopFrequentWords(wcol);
 
     updateTableContent(topwords);
     updateBarChartContent(topwords);

@@ -18,7 +18,7 @@ public:
     MainWidget(QWidget *parent = nullptr);
     ~MainWidget();
     void findWordCombinations(HashWCollection &);
-    VectorWCollection topFrequentWords(HashWCollection &);
+    VectorWCollection findTopFrequentWords(HashWCollection &);
     void updateTableContent(const VectorWCollection &);
     void updateBarChartContent(const VectorWCollection &);
 
