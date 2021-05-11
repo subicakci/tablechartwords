@@ -98,7 +98,7 @@ VectorWCollection MainWidget::findTopFrequentWords(HashWCollection &wcol)
                       []( const QPair<QString, unsigned int> &a, const QPair<QString, unsigned int> &b ) {
                       return a.second > b.second; } );
 
-    std::copy(vwords.begin(), middle_it,std::back_inserter(vtopwords));
+    std::copy(vwords.begin(), middle_it ,std::back_inserter(vtopwords));
 
     return vtopwords;
 }
@@ -129,7 +129,7 @@ void MainWidget::updateTableContent(const VectorWCollection &vwords)
 void MainWidget::updateBarChartContent(const VectorWCollection &vwords)
 {
     QChart *chart = new QChart();
-    QBarSet *set0 = new QBarSet("Frequency");
+    QBarSet *barSet = new QBarSet("Frequency");
     QStringList *categories = new QStringList();
     QHorizontalStackedBarSeries *series = new QHorizontalStackedBarSeries();
 
@@ -137,13 +137,15 @@ void MainWidget::updateBarChartContent(const VectorWCollection &vwords)
     auto sum = std::accumulate(vwords.begin(), vwords.end(), 0,
                                [](uint sum, const QPair<QString, uint> &p) {return sum + p.second; });
 
+    QList<qreal> *tmpBarSet = new QList<qreal>();
     for(const auto &vword: vwords)
     {
-        set0->append (100.0 * vword.second / sum );
+        tmpBarSet->prepend(100.0 * vword.second / sum );
         categories->prepend(vword.first);
     }
 
-    series->append(set0);
+    barSet->append(*tmpBarSet);
+    series->append(barSet);
     chart->addSeries(series);
 
     QBarCategoryAxis *axisY = new QBarCategoryAxis();
