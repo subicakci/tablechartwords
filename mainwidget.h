@@ -32,7 +32,7 @@ private:
     QCheckBox *m_caseCheckBox = new QCheckBox("C&ase sensitive", this);
     QLabel *m_filenameLabel= new QLabel(this);
 
-    QTableWidget *m_tableWidget= new QTableWidget(this);
+    QTableWidget *m_tableWidget= new QTableWidget(10,2,this);
     QChartView *m_chartView = new QChartView(this);
 
 

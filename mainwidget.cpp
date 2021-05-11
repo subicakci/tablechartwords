@@ -8,6 +8,8 @@ MainWidget::MainWidget(QWidget *parent)
     m_findWordsButton->setEnabled(false);
 
     m_tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    m_tableWidget->setHorizontalHeaderLabels({"Word Combination", "Percentage"});
+
     m_chartView->setRenderHint(QPainter::Antialiasing);
     m_chartView->setMinimumSize(640, 480);
 
@@ -108,7 +110,6 @@ void MainWidget::updateTableContent(const VectorWCollection &vwords)
     m_tableWidget->clearContents();
     m_tableWidget->setColumnCount(2);
     m_tableWidget->setRowCount(vwords.size());
-    m_tableWidget->setHorizontalHeaderLabels({"Word Combination", "Percentage"});
 
     //calculate summation of top word frequencies to calculate rate (percentage)
     auto sum = std::accumulate(vwords.begin(), vwords.end(), 0,
@@ -183,7 +184,7 @@ void MainWidget::handleOpenFileClicked()
     m_findWordsButton->setEnabled(true);
 
     //clear the table and the barchart for new operation
-    m_tableWidget->clear();
+    m_tableWidget->clearContents();
     m_chartView->setChart(new QChart);
 
     file.close();
