@@ -116,7 +116,7 @@ void MainWidget::updateTableContent(const VectorWCollection &vwords)
                                [](uint sum, const QPair<QString, uint> &p) {return sum + p.second; });
 
     int index = 0;
-    for (auto vword : vwords) {
+    for (const auto &vword : vwords) {
         QTableWidgetItem *newKeyItem = new QTableWidgetItem(tr("%1").arg(vword.first ));
         QTableWidgetItem *newValueItem = new QTableWidgetItem(tr("%1").arg(QString::number((100.0 * vword.second / sum)) + "%"));
         m_tableWidget->setItem(index,0,newKeyItem);
@@ -137,7 +137,7 @@ void MainWidget::updateBarChartContent(const VectorWCollection &vwords)
     auto sum = std::accumulate(vwords.begin(), vwords.end(), 0,
                                [](uint sum, const QPair<QString, uint> &p) {return sum + p.second; });
 
-    for(auto vword: vwords)
+    for(const auto &vword: vwords)
     {
         set0->append (100.0 * vword.second / sum );
         categories->prepend(vword.first);
